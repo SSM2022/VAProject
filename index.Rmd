@@ -1,0 +1,15 @@
+---
+title: "Welcome to our website!"
+description: |
+  Welcome to our project blog for ISSS608 Visual Analytics and Applications, a course module offered in SMU MITB. We hope you enjoy reading what we have to say!
+site: distill::distill_website
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = FALSE)
+
+# Learn more about creating websites with Distill at:
+# https://rstudio.github.io/distill/website.html
+
+```
+
