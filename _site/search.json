@@ -2,19 +2,19 @@
   "articles": [
     {
       "path": "about.html",
-      "title": "About this site",
+      "title": "Welcome to our website!",
       "description": "Some additional details about the website",
       "author": [],
       "contents": "\r\n\r\n\r\n\r\n",
-      "last_modified": "2022-03-06T13:48:36+08:00"
+      "last_modified": "2022-03-06T13:56:47+08:00"
     },
     {
       "path": "index.html",
-      "title": "My Website",
-      "description": "Welcome to the website. I hope you enjoy it!\n",
+      "title": "Welcome to our website!",
+      "description": "Welcome to our project blog for ISSS608 Visual Analytics and Applications, a course module offered in SMU MITB. We hope you enjoy reading what we have to say!\n",
       "author": [],
       "contents": "\r\n\r\n\r\n\r\n",
-      "last_modified": "2022-03-06T13:48:36+08:00"
+      "last_modified": "2022-03-06T13:56:48+08:00"
     }
   ],
   "collections": []
