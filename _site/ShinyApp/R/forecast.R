@@ -18,6 +18,7 @@ library(modeltime)
 library(tidymodels)
 library(dplyr)
 library(reactable)
+library(glmnet)
 
 
 NY11 <- read_csv("data/NY 11.csv") %>%
@@ -76,10 +77,10 @@ forecastUI <- function(id){
                        end   = "2022-03-01"),
         sliderInput(inputId =NS(id,"proportion"), 
                     label = "Training - Validation Split",
-                    min = 0.6,
+                    min = 0.8,
                     max = 0.9,
                     value = 0.9,
-                    step = 0.05),
+                    step = 0.01),
         numericInput(inputId = NS(id,"horizon"), 
                      label ="Forecast Horizon (Days)", 
                      value = 30),
