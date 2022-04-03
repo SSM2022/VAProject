@@ -2,19 +2,19 @@
   "articles": [
     {
       "path": "about.html",
-      "title": "Welcome to our website!",
-      "description": "Some additional details about the website",
+      "title": "Sugar Price Analyzer!",
+      "description": "This website contains our work on ISSS608 Visual Analytics course project.Hope you enjoy our website!",
       "author": [],
       "contents": "\r\n\r\n\r\n\r\n",
-      "last_modified": "2022-03-06T17:49:57+08:00"
+      "last_modified": "2022-04-03T19:53:50+08:00"
     },
     {
       "path": "index.html",
-      "title": "Welcome to our website!",
-      "description": "Welcome to our project blog for ISSS608 Visual Analytics and Applications, a course module offered in SMU MITB. We hope you enjoy reading what we have to say!\n",
+      "title": "Sugar Price Analyzer",
+      "description": "Welcome to our project blog for ISSS608 Visual Analytics and Applications, a course module offered in SMU MITB. We hope you enjoy reading what we would like say!\n",
       "author": [],
       "contents": "\r\n\r\n\r\n\r\n",
-      "last_modified": "2022-03-06T17:49:58+08:00"
+      "last_modified": "2022-04-03T19:53:55+08:00"
     }
   ],
   "collections": []
