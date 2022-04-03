@@ -1,0 +1,13 @@
+name: ShinyApp
+title: ShinyApp
+username:
+account: vaisss608g3
+server: shinyapps.io
+hostUrl: https://api.shinyapps.io/v1
+appId: 6000628
+bundleId: 5759422
+url: https://vaisss608g3.shinyapps.io/ShinyApp/
+when: 1648991146.35314
+lastSyncTime: 1648991146.35314
+asMultiple: FALSE
+asStatic: FALSE

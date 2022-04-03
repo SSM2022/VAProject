@@ -12,7 +12,7 @@ navbar:
     - text: "Poster"
       href: Poster/poster.html
     - text: "Application"
-      href: 
+      href: Website/Application/Application.html
     - text: "User Guide"
       href: Website/help/guide.html
 output: distill::distill_article

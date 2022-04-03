@@ -21,6 +21,7 @@ library(xts)
 library(shinydashboard)
 library(shinydashboardPlus)
 library(dashboardthemes)
+library(glmnet)
 
 
 
@@ -38,7 +39,7 @@ ui <- dashboardPage(
     ),
     titleWidth = 250,
     tags$li(class = "dropdown", 
-            tags$a(href = "https://isss608stock.netlify.app/#guide", 
+            tags$a(href = "https://isss608vaprojectg3.netlify.app/website/help/guide", 
                    target="_blank",
                    tags$i(class = "fas fa-question-circle"),
                    tags$span("Help"))
