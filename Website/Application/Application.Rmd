@@ -1,0 +1,35 @@
+---
+title: "Sugar Price Analyzer ShinyApp"
+description: 
+author:
+  - name: Gong Shufen, Jiang Mingjun, Sun Shengmei
+    affiliation: SMU MITB
+    affiliation_url: https://scis.smu.edu.sg/master-it-business
+date: "`r Sys.Date()`"
+output:
+   distill::distill_article:
+    toc: true
+    toc_depth: 3
+---
+
+```{r setup, include=FALSE}
+
+knitr::opts_chunk$set(echo = TRUE,
+                      eval = TRUE,
+                      warning = FALSE,
+                      message = FALSE,
+                      fig.retina = 3)
+
+```
+
+ShinyApp can be assessed [here]().
+
+![](coverpage.PNG)
+
+
+
+
+
+
+
+

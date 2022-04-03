@@ -1,181 +1,147 @@
 ---
-title: "Unnecessarily Complicated Research Title"
-author: "John Smith^1^, James Smith^1,2^, and Jane Smith^3^"
-institute: "1. Department and University One; 2. Department and University Two; 3. Department and University Three"
-date: "2018-11-30"
-references:
-  - id: R-base
-    author:
-    - family: "R Core Team"
-      given: ""
-    title: 'R: A Language and Environment for Statistical Computing'
-    issued:
-      year: 2018
-    URL: https://www.r-project.org
-  - id: R-pagedown
-    author:
-    - family: Xie
-      given: Yihui
-    - family: Lesur
-      given: Romain
-    title: 'Paginate the HTML Output of R Markdown with CSS for Print'
-    issued:
-      year: 2018
-    URL: https://github.com/rstudio/pagedown
-output:
-  pagedown::poster_jacobs:
+title: Sugar Future Analyzer Using R and Shiny
+main_topsize: 0.06 #percent coverage of the poster
+main_bottomsize: 0.06
+main_textsize: "90px"
+main_findings: "Future Exploration, Technical Analysis and ML Forecasting <br>- all in one application!"
+title_textsize: "80pt"
+author_textsize: "80"
+affiliation_textsize: "80"
+body_textsize: "46px"
+sectitle_textsize: "45px"
+column_padding: "5mm"
+caption_textsize: "40px"
+titlebox_height: "20%"
+primary_colour: "#3282b8"
+secondary_colour: "#febf63"
+logoleft_name: "data/Singapore_Management_University_logo_SMU.png"
+author:
+  - name: Sun Shengmei
+    affil: 1
+  - name: Gong Shufen
+    affil: 1
+  - name: Jiang Mingjun
+    affil: 1
+affiliation:
+  - num: 1
+    address: Singapore Management University, MITB, ISSS608
+#  - num: 2
+#    address: Department of Graphics and Layouts, University of Posters; Canada
+column_numbers: 3
+output: 
+  posterdown::posterdown_betterport:
     self_contained: false
-    pandoc_args: --mathjax
+  html_document:
+    css: custom.css
+bibliography: packages.bib
 ---
-
-Objectives {.block}
-================================================================================
-
-Lorem ipsum dolor sit amet, consectetur, nunc tellus pulvinar tortor, commodo eleifend risus arcu sed odio:
-
-- Mollis dignissim, magna augue tincidunt dolor, interdum vestibulum urna
-- Sed aliquet luctus lectus, eget aliquet leo ullamcorper consequat. Vivamus eros sem, iaculis ut euismod non, sollicitudin vel orci.
-- Nascetur ridiculus mus.  
-- Euismod non erat. Nam ultricies pellentesque nunc, ultrices volutpat nisl ultrices a.
-- Euismod non erat. Nam ultricies pellentesque nunc, ultrices volutpat nisl ultrices a.
-- Euismod non erat. Nam ultricies pellentesque nunc, ultrices volutpat nisl ultrices a.
-- Euismod non erat. Nam ultricies pellentesque nunc, ultrices volutpat nisl ultrices a.
-
-
-
-Introduction
-================================================================================
-
-Lorem ipsum dolor **sit amet**, consectetur adipiscing elit. Donec ut volutpat elit. Sed laoreet accumsan mattis. Integer sapien tellus, auctor ac blandit eget, sollicitudin vitae lorem. Praesent dictum tempor pulvinar. Suspendisse potenti. Sed tincidunt varius ipsum, et porta nulla suscipit et. Etiam congue bibendum felis, ac dictum augue cursus a. **Donec** magna eros, iaculis sit amet placerat quis, laoreet id est.
-
-```{r, cars-plot, fig.width=6, fig.height=3, dev='svg', out.width='100%', fig.cap='Figure Caption.', echo=FALSE}
-par(mar = c(4, 4, .1, .1), las = 1)
-boxplot(
-  Sepal.Length ~ Species, data = iris, horizontal = TRUE,
-  col = c('limegreen', 'steelblue', 'orange'), notch = TRUE
-)
+ 
+<style>
+#main-img-left, #main-img-center, #main-img-right {
+width: 20%;
+}
+</style>
+ 
+```{r echo=FALSE, eval=FALSE}
+library(pagedown)
+pagedown::chrome_print("VAAposter.html")
 ```
+ 
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = FALSE)
+```
+ 
+# Motivation 
+Comparing the performance of different futures of common commodities such as sugar is not very familiar with normal investors, especially if you want to do it repeatedly. With the help of R, Shiny and the availability of many open-source R packages, we developed a Sugar Future Analyzer- to do technical analysis and forecasting to help those investors to do better investment decisions.     
 
-Test citations @R-base @R-pagedown. See Figure \@ref(fig:cars-plot).
+# Approach and Design Framework
+Our project will explore and develop an app to analyze 
+all sugar futures on the current market.
+ 
+`Exploration`: Exploratory Data Analysis explores the trends
+of sugar future prices and transaction volumes using TIME SERIES
+analysis. We select all kinds of futures and
+compare them within the same selected time period.
+ 
+`Technical Analysis`: Many investors analyze futures based on their fundamentals such as supply and demand but fundamental factors aren't always reflected in the market price. Technical analysis using charts
+help to identify trading signals and price patterns and provides as a window into market psychology to identify opportunities to profit. We built this with the core functions from TidyQuant[Ref.1] and timetk[Ref.2] to support.
+1.	Manipulating Financial Data  
+2.	Performance Analysis   
+ 
+`Forecasting` : As a final feature, we build a forecasting flow for a future incorporating a dashboard to train several ML models and the associated visualization and performance matrix of the trained models, as well as the forecasts comparison for the future. 
+ 
+```{r, echo=FALSE, out.width="80%", fig.align="center", fig.cap = "Forecast process"}
+knitr::include_graphics("data/forecastprocess.jfif")
+```
+ 
+ 
+ 
+# Key Output and Features
+ 
+`EDA For Sugar Futures`
 
-
-
-
-Materials
-================================================================================
-
-The following materials were required to complete the research:
-
-
-- Curabitur pellentesque dignissim
-- Eu facilisis est tempus quis
-- Duis porta consequat lorem
-- Eu facilisis est tempus quis
-
-
-The materials were prepared according to the steps outlined below:
-
-1. Curabitur pellentesque dignissim
-1. Eu facilisis est tempus quis
-1. Duis porta consequat lorem
-1. Curabitur pellentesque dignissim
-
-
-
-
-Methods
-================================================================================
-
-Lorem ipsum dolor **sit amet**, consectetur adipiscing elit. Sed laoreet accumsan mattis. Integer sapien tellus, auctor ac blandit eget, sollicitudin vitae lorem. Praesent dictum tempor pulvinar. Suspendisse potenti. Sed tincidunt varius ipsum, et porta nulla suscipit et. Etiam congue bibendum felis, ac dictum augue cursus a. **Donec** magna eros, iaculis sit amet placerat quis, laoreet id est. In ut orci purus, interdum ornare nibh. Pellentesque pulvinar, nibh ac malesuada accumsan, urna nunc convallis tortor, ac vehicula nulla tellus eget nulla. Nullam lectus tortor, _consequat tempor hendrerit_ quis, vestibulum in diam. Maecenas sed diam augue.
-
-Important Result {.block}
-================================================================================
-
-Lorem ipsum dolor **sit amet**, consectetur adipiscing elit. Sed commodo molestie porta. Sed ultrices scelerisque sapien ac commodo. Donec ut volutpat elit.
-
-
-
-Mathematical Section
-================================================================================
-
-Nam quis odio enim, in molestie libero. Vivamus cursus mi at nulla elementum sollicitudin. Nam quis odio enim, in molestie libero. Vivamus cursus mi at nulla elementum sollicitudin.
+Exploratory Data Analysis implements a view of 4 equal sections, each showing a different type of chart. 
+Daily Closing Price visualizes the daily closing price. Zooming into the period from July 2021 to December 2021, we can see that NY 11 daily closing price is volatile, ranging between 17cts/lb to 20.5 cts/lb.  Daily Trading Volume visualizes the daily trading volume. Peak daily trading volume happened in the first half of September 2021. Massive selling orders pushed NY 11 price lower by more than 0.5cts/lb in 2 weeks. Seasonal-Trend Decomposition visualizes the seasonality, trend, and remainders composition of the price. Seasonal composition shows that there is a periodical behavior for around 7 days. The general trend of NY 11 sugar price from July 2021 is increasing until earlier September 2021 and decreasing afterwards till the end of 2021. Anomaly Diagnostics visualizes anomalies in the time series data. No anomalies are observed for the selected period from July to December 2021.
   
-\begin{equation}
-E = mc^{2}
-(\#eq:Einstein)
-\end{equation}
 
-Nam quis odio enim, in molestie libero. Vivamus cursus mi at nulla elementum sollicitudin. Nam quis odio enim, in molestie libero. Vivamus cursus mi at nulla elementum sollicitudin.
+```{r, echo=FALSE, out.width="100%", fig.align="center", fig.cap = "EDA Visualisation"}
+knitr::include_graphics("data/eda.png")
+```
+ 
+`Technical Analysis for a Sugar Futures` 
+ 
+1. Price Movement Candlestick Chart    
 
-\begin{equation}
-\cos^3 \theta =\frac{1}{4}\cos\theta+\frac{3}{4}\cos 3\theta
-(\#eq:refname)
-\end{equation}
+Candlestick charts shows the open, close, high and low) price. The color of the central body tells investors whether the opening or closing price was higher. A green body means a higher closing price than the opening price, indicating buying pressure. The top and bottom of the stick shows the high and the low of the day. Hammer patterns appeared in NY 11 sugar price in March 2022, indicating the bottom of a downtrend. Three-white-soldiers pattern appeared in December 2022,  showing a steady buying pressure. Investors need to be cautious of short sellers when this pattern appears to be too long. 
 
-Nam quis odio enim, in molestie libero. Vivamus cursus mi at nulla elementum sollicitudin. Nam quis odio enim, in molestie libero. Vivamus cursus mi at nulla elementum sollicitudin.
+```{r, echo=FALSE, out.width="100%", fig.align="center", fig.cap = "Sample Visualisation for Single Stock"}
+knitr::include_graphics("data/Candlestick.png")
 
-\begin{equation}
-\kappa =\frac{\xi}{E_{\mathrm{max}}}
-\end{equation}
-
-Nam quis odio enim, in molestie libero. Vivamus cursus mi at nulla elementum sollicitudin. Nam quis odio enim, in molestie libero. Vivamus cursus mi at nulla elementum sollicitudin.
-
-
-Results
-================================================================================
-
-::: {.figure-example}
-Placeholder  
-~~~~~~~  
-Image
-
-Figure 2: Figure caption.
-:::
-
-Nunc tempus venenatis facilisis. Curabitur suscipit consequat eros non porttitor. Sed a massa dolor, id ornare enim:
-
-```{r echo=FALSE}
-knitr::kable(iris[1:5, 1:4], caption = 'Table caption.')
 ```
 
+2. Moving averages (15-day, 50-day) Chart
 
-Conclusion
-================================================================================
+Moving average price smooths out the price trends by filtering out the noise from the random short-term price fluctuations.  This study visualized 4 types of moving average price, namely simple moving average(SMA), exponential moving average(EMA), double exponential moving average(DEMA) and elastic volume-weighted moving average(EVWMA). When sugar price crosses over the moving average line, it signals of potential change in trend.
+ 
+```{r, echo=FALSE, out.width="100%", fig.align="center", fig.cap = "Sample Visualisation for Single Stock"}
+knitr::include_graphics("data/SMA.png")
+```
 
-Nunc tempus venenatis facilisis. **Curabitur suscipit** consequat eros non porttitor. Sed a massa dolor, id ornare enim. Fusce quis massa dictum tortor **tincidunt mattis**. Donec quam est, lobortis quis pretium at, laoreet scelerisque lacus. Nam quis odio enim, in molestie libero. Vivamus cursus mi at _nulla elementum sollicitudin_.
+3. Bollinger Bands
 
-Nunc tempus venenatis facilisis. **Curabitur suscipit** consequat eros non porttitor. Sed a massa dolor, id ornare enim. Fusce quis massa dictum tortor **tincidunt mattis**. Donec quam est, lobortis quis pretium at, laoreet scelerisque lacus. Nam quis odio enim, in molestie libero. Vivamus cursus mi at _nulla elementum sollicitudin_.
-
-
-
-
-References
-================================================================================
-
-<div id="refs"></div>
+Bollinger bands are used to measure the highness and lowness of the price, relative to previous trades. The closer the prices move to the upper band, the more overbought the market, and a trend reversal is more likely to happen, vice versa.
 
 
+```{r, echo=FALSE, out.width="100%", fig.align="center", fig.cap = "Sample Visualisation for Single Stock"}
+knitr::include_graphics("data/Bollingor.png")
+```
+
+`Forecasting in 4 different models (Arima/Exponential Smooting/Prophet/Lasso )`   
+
+```{r, echo=FALSE, out.width="100%", fig.align="center", fig.cap = "Sample Visualization of Forecast Model Outcomes"}
+knitr::include_graphics("data/forecast1.png")
+```
+
+The prophet model is the best model based on our default selection with the highest accuracy of MAE(mean absolute error)
+```{r, echo=FALSE, out.width="100%", fig.align="center", fig.cap = "Sample Visulisation Model Performance"}
+knitr::include_graphics("data/forecast2.png")
+```
+ 
+# Learnings and Future Work
+
+R shiny can democratize data and analytics through web-based analytical applications for data exploration, visualization analysis and modelling. And it is convenient and reusable at different time.
+
+Other commodities (e.g., oil) can be used to do the same analysis as sugar futures.In the future, an interactive interface allowing users to select other commodity futures might be introduced to this program. In addition, other package (e.g., Quandl) can also be explored for those commodities.
+ 
+# Conclusion
+ 
+In conclusion, we can provide to the investor a simple interface to do sugar future review and analysis to make better investment decisions using those useful R packages that specialize in time series analysis and technical functions for Financial Analysis and Shiny.
+ 
+# References
+1.TidyQuant Project Website: https://business-science.github.io/tidyquant/  
+2.Time series analysis in the tidyverse: https://business-science.github.io/timetk/               
+3.Modeltime forecast  future data:  https://business-science.github.io/modeltime/reference/modeltime_forecast.html
+4. 7 Technical Indicators to build a trading toolkit: https://www.investopedia.com/top-7-technical-analysis-tools-4773275
+ 
 
 
-Acknowledgements {data-color=red}
-================================================================================
-
-Nam mollis tristique neque eu luctus. Suspendisse rutrum congue nisi sed convallis. Aenean id neque dolor. Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas.
-
-::: {.logo-example}
-Placeholder Logo
-
-Placeholder Logo
-
-Placeholder Logo
-:::
-
-Nam mollis tristique neque eu luctus. Suspendisse rutrum congue nisi sed convallis. Aenean id neque dolor. Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas.
-
-
-Contact Information {.block data-color=black data-border-color=orange data-background-color=white}
-================================================================================
-
-- Web: https://www.example.org/smithlab
-- Email: john@example.org
-- Phone: +1 (000) 111 1111

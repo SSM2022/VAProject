@@ -1,0 +1,502 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta charset="utf-8" />
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="generator" content="pandoc" />
+<meta name="viewport" content="width=device-width, initial-scale=1">
+
+
+
+<title>Sugar Future Analyzer Using R and Shiny</title>
+
+
+
+
+
+
+
+<!--
+Font-awesome icons ie github or twitter
+-->
+<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.1/css/all.css" integrity="sha384-50oBUHEmvpQ+1lW4y57PTFmhCaXp0ML5d60M1M7uH2+nqUivzIebhndOJK28anvf" crossorigin="anonymous">
+<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.1/css/brands.css" integrity="sha384-n9+6/aSqa9lBidZMRCQHTHKJscPq6NW4pCQBiMmHdUCvPN8ZOg2zJJTkC7WIezWv" crossorigin="anonymous">
+
+<!--
+Google fonts api stuff
+-->
+<link href='https://fonts.googleapis.com/css?family=Special Elite' rel='stylesheet'>
+<link href='https://fonts.googleapis.com/css?family=Rasa' rel='stylesheet'>
+
+<!--
+Here are the required style attributes for css to make this poster work :)
+-->
+<style>
+@page {
+size: 36in 48in;
+margin: 0;
+padding: 0;
+}
+body {
+margin: 0px;
+padding: 0px;
+width: 36in;
+height: 48in;
+text-align: justify;
+font-size: 46px;
+line-height: 1.05;
+}
+/* RMarkdown Class Styles */
+/* center align leaflet map,
+from https://stackoverflow.com/questions/52112119/center-leaflet-in-a-rmarkdown-document */
+.html-widget {
+margin: auto;
+position: sticky;
+margin-top: 2cm;
+margin-bottom: 2cm;
+}
+.leaflet.html-widget.html-widget-static-bound.leaflet-container.leaflet-touch.leaflet-fade-anim.leaflet-grab.leaflet-touch-drag.leaflet-touch-zoom {
+position: sticky;
+width: 100%;
+}
+pre.sourceCode.r {
+background-color: #dddddd40;
+border-radius: 4mm;
+padding: 4mm;
+width: 75%;
+margin: auto;
+margin-top: 1em;
+margin-bottom: 1em;
+/* align-items: center; */
+}
+code.sourceCode.r{
+background-color: transparent;
+font-size: 20pt;
+border-radius: 2mm;
+}
+code {
+font-size: 25pt;
+font-family: monospace;
+background-color: #febf6324;
+color: #3282b8;
+padding: 1.2mm;
+line-height: 1;
+border-radius: 2mm;
+}
+caption {
+margin-bottom: 10px;
+font-size: 40px;
+font-style: italic;
+}
+
+tbody tr:nth-child(odd) {
+    background-color: #febf6320;
+}
+.table>thead>tr>th, .table>tbody>tr>th, .table>tfoot>tr>th, .table>thead>tr>td, .table>tbody>tr>td, .table>tfoot>tr>td{
+  border-spacing: 0;
+  font-size: 40%;
+  border-style: none;
+  padding-top: 15px;
+  padding-bottom: 15px;
+  padding-right: 1em;
+  padding-left: 1em;
+  line-height: 1em;
+}
+table {
+  margin: auto;
+}
+th {
+  padding-left: 5mm;
+  padding-right: 5mm;
+}
+.caption {
+font-size: 40px;
+font-style: italic;
+padding-top: 0;
+}
+.references {
+font-size: 20px;
+line-height: 90%;
+}
+/* Create three unequal columns that floats next to each other */
+.column {
+float: left;
+padding: 0px;
+}
+.outer {
+width: 36in;
+height: calc(48in *  (1 - 0.06 - 0.06 - 0.01) );
+-webkit-column-count: 3; /* Chrome, Safari, Opera */
+-moz-column-count: 3; /* Firefox */
+column-count: 3;
+-webkit-column-fill: auto;
+-moz-column-fill: auto;
+column-fill: auto;
+column-gap: 0;
+padding-left: 0cm;
+padding-right: 0cm;
+/* -webkit-column-rule-width: 50%;
+-moz-column-rule-width: 50%;
+column-rule-width: 50%; */
+-webkit-column-rule-style: none;
+-moz-column-rule-style: none;
+column-rule-style: none;
+-webkit-column-rule-color: black;
+-moz-column-rule-color: black;
+column-rule-color: black;
+background-color: #ffffff;
+font-family: Rasa;
+margin-top: calc(48in *  0.06 );
+padding-top: 1em;
+padding-bottom: 1em;
+}
+span.citation {
+  color: #febf63;
+  font-weight: bold;
+}
+a {
+text-decoration: none;
+color: #febf63;
+}
+#title {
+font-size: 80pt;
+text-align: left;
+margin: 0;
+line-height: 98%;
+border-bottom: 0;
+font-weight: normal;
+background: 0;
+}
+#author {
+color: #3282b8;
+margin: 0;
+line-height: 85%;
+font-size: 80;
+}
+#affiliation {
+padding-top: 0.1em;
+color: ;
+font-style: italic;
+font-size: 80;
+margin: 0;
+}
+sup {
+color: #cc0000;
+}
+.affiliation sup {
+font-size: 20px;
+}
+.author {
+text-align: left;
+}
+.author sup {
+font-size: 30px;
+}
+.author_extra {
+color: #febf63;
+margin: 0;
+line-height: 85%;
+font-size: 35px;
+text-align: left;
+}
+.outer h1, h2, h3, h4, h5, h6 {
+text-align: center;
+margin: 0;
+font-weight: bold;
+}
+.section h1 {
+  text-align:center;
+  padding-bottom:5px;
+  background:
+    linear-gradient(
+      to left,
+      #ffffff 1%,
+      #ffffff 20%,
+      #3282b875 33%,
+      #3282b8 50%,
+      #3282b875 66%,
+      #ffffff 80%,
+      #ffffff 99%
+    )
+    left
+    bottom
+    #ffffff
+    no-repeat;
+  background-size:100% 5px ;
+  margin-top: 0.5em;
+  margin-bottom: 0.5em;
+}
+.outer h2 {
+text-align: center;
+}
+.outer p, .level2 {
+color: #000000;
+}
+.outer ol {
+padding-left: 8%;
+padding-right: 8%;
+text-align: left;
+}
+.main {
+width: 36in;
+height: calc(48in * 0.06);
+position: absolute;
+background-color: #3282b8;
+color: #ffffff90;
+font-family: Special Elite;
+background-image: linear-gradient(#3282b8 50%,#febf63);
+}
+.main strong {
+color: #ffffff;
+}
+.main strong > sup {
+color: #ffffff;
+}
+.main sup {
+color: #ffffff90;
+}
+#main-img-left {
+width: 10%;
+left: 0.5in;
+bottom: 0.2in;
+position: absolute;
+}
+#main-img-center {
+width: 10%;
+left: calc(36in * 0.45);
+bottom: 0.5in;
+position: absolute;
+}
+#main-img-right {
+width: 10%;
+right: 0.5in;
+bottom: 0.2in;
+position: absolute;
+}
+.main p {
+font-size: 90px;
+font-family: Special Elite;
+text-align: center;
+margin: 0;
+position: absolute;
+top: 50%;
+-ms-transform: translateY(-50%);
+transform: translateY(-50%);
+margin-left: 1em;
+}
+.fab {
+color: #00000030;
+font-size: 25px;
+}
+.twitter, i {
+color: #00000030;
+font-size: 35px;
+text-decoration: none;
+}
+a.email {
+text-decoration: none;
+color: #00000030;
+font-size: 35px;
+}
+.envelope {
+color: #00000030;
+font-size: 5px;
+text-decoration: none;
+}
+.poster_wrap {
+width: 36in;
+height: 48in;
+padding: 0cm;
+}
+.main_bottom {
+width: 36in;
+height: calc(48in * 0.06);
+margin-top: calc(48in * (1 - 0.06));
+position: absolute;
+background-color: #3282b8;
+background-image: linear-gradient(#febf63 10%, #3282b8);
+}
+.section {
+  padding-left: 5mm;
+  padding-right: 5mm;
+}
+span > #tab:mytable {
+  font-weight: bold;
+}
+.orcid img {
+  width: 3%;
+}
+.emphasis {
+  background-color: #008080;
+  color: #ffffff;
+  border: solid #0b2045 3mm;
+  margin: 1em;
+  padding-left: 0;
+  padding-right: 0;
+}
+.emphasis h1 {
+  font-weight: bold;
+  background: none;
+  background-color: #0b2045;
+  padding-bottom: 5mm;
+  padding-top: 1mm;
+  margin-top: -1mm;
+  margin-right: -1mm;
+  margin-left: -1mm;
+}
+.emphasis blockquote {
+  border: 0;
+}
+.emphasis ol {
+  padding: 0;
+  padding-left: 8%;
+  font-size: 100%;
+  font-weight: bold;
+}
+.emphasis p {
+  color: #ffffff;
+}
+</style>
+</head>
+<body>
+
+
+<div class="poster_wrap">
+
+<div class="column outer">
+<div class="section">
+<h1 id="title">Sugar Future Analyzer Using R and Shiny</h1><br>
+<h3 id="author" class="author">
+
+  </h3>
+
+<h5 id="author_extra", class="author_extra">
+Sun Shengmei<sup>1</sup>
+ Gong Shufen<sup>1</sup>
+ Jiang Mingjun<sup>1</sup>
+</h5>
+
+
+<p id="affiliation" class="affiliation">
+<sup>1</sup> Singapore Management University, MITB, ISSS608
+</p>
+</div>
+
+<style>
+#main-img-left, #main-img-center, #main-img-right {
+width: 20%;
+}
+</style>
+<div id="motivation" class="section level1">
+<h1>Motivation</h1>
+<p>Comparing the performance of different futures of common commodities such as sugar is not very familiar with normal investors, especially if you want to do it repeatedly. With the help of R, Shiny and the availability of many open-source R packages, we developed a Sugar Future Analyzer- to do technical analysis and forecasting to help those investors to do better investment decisions.</p>
+</div>
+<div id="approach-and-design-framework" class="section level1">
+<h1>Approach and Design Framework</h1>
+<p>Our project will explore and develop an app to analyze
+all sugar futures on the current market.</p>
+<p><code>Exploration</code>: Exploratory Data Analysis explores the trends
+of sugar future prices and transaction volumes using TIME SERIES
+analysis. We select all kinds of futures and
+compare them within the same selected time period.</p>
+<p><code>Technical Analysis</code>: Many investors analyze futures based on their fundamentals such as supply and demand but fundamental factors aren’t always reflected in the market price. Technical analysis using charts
+help to identify trading signals and price patterns and provides as a window into market psychology to identify opportunities to profit. We built this with the core functions from TidyQuant[Ref.1] and timetk[Ref.2] to support.
+1. Manipulating Financial Data<br />
+2. Performance Analysis</p>
+<p><code>Forecasting</code> : As a final feature, we build a forecasting flow for a future incorporating a dashboard to train several ML models and the associated visualization and performance matrix of the trained models, as well as the forecasts comparison for the future.</p>
+<div class="figure" style="text-align: center"><span style="display:block;" id="fig:unnamed-chunk-2"></span>
+<img src="data/forecastprocess.jfif" alt="Forecast process" width="80%" />
+<p class="caption">
+Figure 1: Forecast process
+</p>
+</div>
+</div>
+<div id="key-output-and-features" class="section level1">
+<h1>Key Output and Features</h1>
+<p><code>EDA For Sugar Futures</code></p>
+<p>Exploratory Data Analysis implements a view of 4 equal sections, each showing a different type of chart.
+Daily Closing Price visualizes the daily closing price. Zooming into the period from July 2021 to December 2021, we can see that NY 11 daily closing price is volatile, ranging between 17cts/lb to 20.5 cts/lb. Daily Trading Volume visualizes the daily trading volume. Peak daily trading volume happened in the first half of September 2021. Massive selling orders pushed NY 11 price lower by more than 0.5cts/lb in 2 weeks. Seasonal-Trend Decomposition visualizes the seasonality, trend, and remainders composition of the price. Seasonal composition shows that there is a periodical behavior for around 7 days. The general trend of NY 11 sugar price from July 2021 is increasing until earlier September 2021 and decreasing afterwards till the end of 2021. Anomaly Diagnostics visualizes anomalies in the time series data. No anomalies are observed for the selected period from July to December 2021.</p>
+<div class="figure" style="text-align: center"><span style="display:block;" id="fig:unnamed-chunk-3"></span>
+<img src="data/eda.png" alt="EDA Visualisation" width="100%" />
+<p class="caption">
+Figure 2: EDA Visualisation
+</p>
+</div>
+<p><code>Technical Analysis for a Sugar Futures</code></p>
+<ol style="list-style-type: decimal">
+<li>Price Movement Candlestick Chart</li>
+</ol>
+<p>Candlestick charts shows the open, close, high and low) price. The color of the central body tells investors whether the opening or closing price was higher. A green body means a higher closing price than the opening price, indicating buying pressure. The top and bottom of the stick shows the high and the low of the day. Hammer patterns appeared in NY 11 sugar price in March 2022, indicating the bottom of a downtrend. Three-white-soldiers pattern appeared in December 2022, showing a steady buying pressure. Investors need to be cautious of short sellers when this pattern appears to be too long.</p>
+<div class="figure" style="text-align: center"><span style="display:block;" id="fig:unnamed-chunk-4"></span>
+<img src="data/Candlestick.png" alt="Sample Visualisation for Single Stock" width="100%" />
+<p class="caption">
+Figure 3: Sample Visualisation for Single Stock
+</p>
+</div>
+<ol start="2" style="list-style-type: decimal">
+<li>Moving averages (15-day, 50-day) Chart</li>
+</ol>
+<p>Moving average price smooths out the price trends by filtering out the noise from the random short-term price fluctuations. This study visualized 4 types of moving average price, namely simple moving average(SMA), exponential moving average(EMA), double exponential moving average(DEMA) and elastic volume-weighted moving average(EVWMA). When sugar price crosses over the moving average line, it signals of potential change in trend.</p>
+<div class="figure" style="text-align: center"><span style="display:block;" id="fig:unnamed-chunk-5"></span>
+<img src="data/SMA.png" alt="Sample Visualisation for Single Stock" width="100%" />
+<p class="caption">
+Figure 4: Sample Visualisation for Single Stock
+</p>
+</div>
+<ol start="3" style="list-style-type: decimal">
+<li>Bollinger Bands</li>
+</ol>
+<p>Bollinger bands are used to measure the highness and lowness of the price, relative to previous trades. The closer the prices move to the upper band, the more overbought the market, and a trend reversal is more likely to happen, vice versa.</p>
+<div class="figure" style="text-align: center"><span style="display:block;" id="fig:unnamed-chunk-6"></span>
+<img src="data/Bollingor.png" alt="Sample Visualisation for Single Stock" width="100%" />
+<p class="caption">
+Figure 5: Sample Visualisation for Single Stock
+</p>
+</div>
+<p><code>Forecasting in 4 different models (Arima/Exponential Smooting/Prophet/Lasso )</code></p>
+<div class="figure" style="text-align: center"><span style="display:block;" id="fig:unnamed-chunk-7"></span>
+<img src="data/forecast1.PNG" alt="Sample Visualization of Forecast Model Outcomes" width="100%" />
+<p class="caption">
+Figure 6: Sample Visualization of Forecast Model Outcomes
+</p>
+</div>
+The prophet model is the best model based on our default selection with the highest accuracy of MAE(mean absolute error)
+<div class="figure" style="text-align: center"><span style="display:block;" id="fig:unnamed-chunk-8"></span>
+<img src="data/forecast2.PNG" alt="Sample Visulisation Model Performance" width="100%" />
+<p class="caption">
+Figure 7: Sample Visulisation Model Performance
+</p>
+</div>
+</div>
+<div id="learnings-and-future-work" class="section level1">
+<h1>Learnings and Future Work</h1>
+<p>R shiny can democratize data and analytics through web-based analytical applications for data exploration, visualization analysis and modelling. And it is convenient and reusable at different time.</p>
+<p>Other commodities (e.g., oil) can be used to do the same analysis as sugar futures.In the future, an interactive interface allowing users to select other commodity futures might be introduced to this program. In addition, other package (e.g., Quandl) can also be explored for those commodities.</p>
+</div>
+<div id="conclusion" class="section level1">
+<h1>Conclusion</h1>
+<p>In conclusion, we can provide to the investor a simple interface to do sugar future review and analysis to make better investment decisions using those useful R packages that specialize in time series analysis and technical functions for Financial Analysis and Shiny.</p>
+</div>
+<div id="references" class="section level1">
+<h1>References</h1>
+<p>1.TidyQuant Project Website: <a href="https://business-science.github.io/tidyquant/" class="uri">https://business-science.github.io/tidyquant/</a><br />
+2.Time series analysis in the tidyverse: <a href="https://business-science.github.io/timetk/" class="uri">https://business-science.github.io/timetk/</a><br />
+3.Modeltime forecast future data: <a href="https://business-science.github.io/modeltime/reference/modeltime_forecast.html" class="uri">https://business-science.github.io/modeltime/reference/modeltime_forecast.html</a>
+4. 7 Technical Indicators to build a trading toolkit: <a href="https://www.investopedia.com/top-7-technical-analysis-tools-4773275" class="uri">https://www.investopedia.com/top-7-technical-analysis-tools-4773275</a></p>
+</div>
+
+</div>
+<div class="main">
+<p>Future Exploration, Technical Analysis and ML Forecasting <br>- all in one application!</p>
+</div>
+<div class="main_bottom">
+<img id="main-img-left" src=data/Singapore_Management_University_logo_SMU.png>
+<img id="main-img-center" src=>
+<img id="main-img-right" src=>
+</div>
+</div>
+
+
+
+</body>
+</html>

@@ -10,7 +10,7 @@ navbar:
     - text: "Proposal"
       href: Website/Proposal/Proposal.html
     - text: "Poster"
-      href: 
+      href: Poster/poster.html
     - text: "Application"
       href: 
     - text: "User Guide"
