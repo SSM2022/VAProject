@@ -26,7 +26,7 @@ ShinyApp can be assessed here: https://mjjiang.shinyapps.io/sugar/
 
 ![](coverpage.PNG)
 
-Project repository cab be assessed [here](https://github.com/SSM2022/VAProject)
+Project repository could be assessed [here](https://github.com/SSM2022/VAProject)
 
 
 
