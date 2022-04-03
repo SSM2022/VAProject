@@ -1,7 +1,7 @@
 ---
-title: "Welcome to our website!"
+title: "Sugar Price Analyzer!"
 description: |
-  Some additional details about the website
+  This website contains our work on ISSS608 Visual Analytics course project.Hope you enjoy our website!
 ---
 
 ```{r setup, include=FALSE}

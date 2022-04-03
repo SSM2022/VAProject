@@ -1,0 +1,380 @@
+---
+title: "Untitled"
+description: |
+  A new article created using the Distill format.
+author:
+  - name: Nora Jones 
+    url: https://example.com/norajones
+    affiliation: Spacely Sprockets
+    affiliation_url: https://example.com/spacelysprokets
+date: "`r Sys.Date()`"
+output: distill::distill_article
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = FALSE)
+```
+
+Distill is a publication format for scientific and technical writing, native to the web. 
+
+Learn more about using Distill for R Markdown at <https://rstudio.github.io/distill>.
+
+
+```{r}
+packages = c('tidyverse', 'dplyr','ggiraph','plotly', 'lubridate', 'timetk', 'modeltime', 'tidyquant', 'shiny', 'shinybusy')
+
+for(p in packages){library
+  if(!require(p, character.only = T)){
+    install.packages(p)
+  }
+  library(p, character.only = T)
+}
+```
+
+```{r}
+NY11 <- read_csv("C:/SSM2022/VAProject/data/NY 11.csv") %>%
+  mutate('symbol' = 'SB' ) %>%
+  rename('open' = '%SB 1!.Default Open',
+         'high' = '%SB 1!.Default High',
+         'low' = '%SB 1!.Default Low',
+         'close' = '%SB 1!.Default Close',
+         'openInterest' = 'OpenInterest.Default',
+         'volume' = 'VOL (%SB 1!).Volume')
+
+NY16 <- read_csv("C:/SSM2022/VAProject/data/NY 16.csv") %>%
+  mutate('symbol' = 'SF' ) %>%
+  rename('open' = '%SFQ 1!.Default Open',
+         'high' = '%SFQ 1!.Default High',
+         'low' = '%SFQ 1!.Default Low',
+         'close' = '%SFQ 1!.Default Close',
+         'openInterest' = 'OpenInterest.Default',
+         'volume' = 'VOL (%SFQ 1!).Volume')
+
+LDN5 <- read_csv("C:/SSM2022/VAProject/data/LDN 5.csv") %>%
+  mutate('symbol' = 'W' ) %>%
+  rename('open' = '%W 1!-ICE.Default Open',
+         'high' = '%W 1!-ICE.Default High',
+         'low' = '%W 1!-ICE.Default Low',
+         'close' = '%W 1!-ICE.Default Close',
+         'openInterest' = 'OpenInterest.Default',
+         'volume' = 'VOL (%W 1!-ICE).Volume')
+```
+```{r}
+data <- rbind(NY11, NY16, LDN5)
+```
+
+```{r}
+data$date = mdy(data$Date)
+NY11$Date = mdy(NY11$Date)
+NY16$Date = mdy(NY16$Date)
+LDN5$Date = mdy(LDN5$Date)
+```
+
+```{r}
+data <- na.omit(data)
+NY11 <- na.omit(NY11)
+NY16 <- na.omit(NY16)
+LDN5 <- na.omit(LDN5)
+```
+
+
+# Plotting Time Series
+
+## Plotting groups
+
+```{r}
+data %>% 
+  group_by(symbol) %>%
+  plot_time_series(Date, close, 
+                   .facet_ncol  = 2,
+                   .facet_scales = "free",
+                   .interactive = TRUE)
+```
+
+```{r}
+data %>% 
+  group_by(symbol) %>%
+  plot_time_series(Date, close, 
+                   .facet_ncol  = 2,
+                   .facet_scales = "free",
+                   .interactive = TRUE)
+```
+
+
+
+## Bollinger
+
+```{r}
+  ggplot(NY11,aes(x = Date, y = Close, open = Open, high = High, low = Low, close = Close)) +
+  geom_candlestick(aes(open = Open, high = High, low = Low, close = Close), 
+                   colour_up = "darkgreen", colour_down = "darkred",
+                   fill_up  = "darkgreen", fill_down  = "darkred")+
+  geom_bbands(ma_fun = SMA, sd = 2, n = 20,show.legend = TRUE) +
+  labs (title = "Bollinger Bands with SMA Applied",
+                  subtitle = "",
+                  y = "Closing Price (cts/lb)", x = "")+
+  scale_x_date(breaks = "2 weeks", date_labels =  "%Y %m %d") +
+            theme(plot.title = element_text(color = "black", size = 16, face = "bold"),
+              plot.subtitle = element_text(color = "black",size = 14),
+              plot.caption = element_text(color = "green", face = "italic"))
+
+```
+## Candlestick
+
+```{r}
+NY11%>%
+    ggplot(aes(x = Date, y = Close)) +
+    geom_candlestick(aes(open = Open, high = High, low = Low, close = Close),
+                        colour_up = "darkgreen", colour_down = "darkred", 
+                        fill_up  = "darkgreen", fill_down  = "darkred") +
+    labs(title = "Candlestick Chart", 
+         subtitle = "Zoomed in, Experimenting with Formatting",
+         y = "Closing Price", x = "") + 
+    theme_tq()
+
+```
+
+```{r}
+end <- as_date("2021-12-31")
+NY11%>%
+    ggplot(aes(x = Date, y = close)) +
+    geom_candlestick(aes(open = open, high = high, low = low, close = close),
+                        colour_up = "darkgreen", colour_down = "darkred", 
+                        fill_up  = "darkgreen", fill_down  = "darkred") +
+    labs(title = "Candlestick Chart", 
+         subtitle = "Zoomed in, Experimenting with Formatting",
+         y = "Closing Price", x = "") + 
+    coord_x_date(xlim = c(end - weeks(6), end),
+                 ylim = c(18, 22)) + 
+    theme_tq()
+
+```
+
+## Volume
+
+```{r}
+
+NY11%>%
+    ggplot(aes(x = Date, y = Volume)) +
+    geom_segment(aes(xend = Date, yend = 0, color = Volume)) + 
+    geom_smooth(method = "loess", se = FALSE) +
+    labs(title = "Volume Chart", 
+         subtitle = "Charting Daily Volume", 
+         y = "Volume", x = "") +
+    theme_tq() +
+    theme(legend.position = "none") 
+
+```
+
+
+```{r}
+end <- as_date("2021-12-31")
+start <- end - weeks(24)
+
+NY11%>%
+    filter(Date >= start - days(50)) %>%
+    ggplot(aes(x = Date, y = Volume)) +
+    geom_segment(aes(xend = Date, yend = 0, color = Volume)) +
+    geom_smooth(method = "loess", se = FALSE) +
+    labs(title = "Bar Chart", 
+         subtitle = "Charting Daily Volume, Zooming In", 
+         y = "Volume", x = "") + 
+    coord_x_date(xlim = c(start, end)) +
+    scale_color_gradient(low = "red", high = "darkblue") +
+    theme_tq() + 
+    theme(legend.position = "none") 
+
+
+```
+
+
+## Abnomaly
+
+```{r}
+NY11 %>%
+    plot_anomaly_diagnostics(Date, Close,
+                                   .message = FALSE,
+                                   .facet_ncol = 2,
+                                   .ribbon_alpha = 0.25,
+                                   .interactive = FALSE,
+                                   .legend_show = FALSE) +
+          theme(axis.text.x = element_text(angle = 30, hjust = 1))
+
+```
+
+
+```{r}
+interactive <- FALSE
+data %>% 
+  group_by(Symbol)%>%
+  plot_time_series(Date, Close, 
+                   .facet_ncol = 2, .facet_scales = "free",
+                   .interactive = interactive
+                   )
+```
+
+```{r, fig.height=10}
+interactive <- FALSE
+data %>% 
+  group_by(Symbol)%>%
+  plot_time_series(Date, log(Close),
+                   .color_var = week(Date),
+                   .facet_ncol = 2, .facet_scales = "free",
+                   .interactive = interactive
+                   )
+```
+
+```{r}
+interactive <- FALSE
+data %>% 
+  group_by(Symbol)%>%
+  plot_time_series(Date, Close,
+                   .color_var = month(Date, label = TRUE),
+                   .interactive = FALSE,
+                  .title = "Sugar Option",
+                   .x_lab = "Date (30-min intervals)",
+                   .y_lab = "Price($)",
+                   .color_lab = "Month") +
+  scale_y_continuous(labels = scales::comma_format())
+```
+
+```{r}
+interactive <- FALSE
+data %>% 
+  group_by(Symbol)%>%
+   plot_time_series_boxplot(
+     Date, Close,
+     .period = "1 year",
+        .facet_ncol  = 2,
+        .interactive = FALSE)
+```
+
+```{r}
+interactive <- FALSE
+data %>% 
+  group_by(symbol)%>%
+  plot_time_series_regression(
+    .date_var = Date,
+        .formula  = log(close) ~ as.numeric(date) + month(date, label = TRUE),
+        .facet_ncol = 2,
+        .interactive  = FALSE,
+        .show_summary = FALSE
+    )
+```
+
+```{r,fig.height=20,fig.width=20}
+   data %>% 
+    group_by(Symbol) %>%
+    plot_seasonal_diagnostics(Date, Open, .interactive = FALSE)
+```
+
+```{r}
+data %>% 
+  filter(symbol == "SB") %>%
+  filter(Date>="2021-01-01"  & Date<="2021-12-31") %>%
+  plot_time_series(Date, close, .interactive = FALSE)
+```
+
+
+```{r}
+data %>% 
+  filter(symbol == "SB") %>%
+  filter(Date>="2021-01-01"  & Date<="2021-12-31") %>%  
+    ggplot(aes(x = Date, y = close)) +
+    geom_candlestick(aes(open = open, high = high, low = low, close = close),
+                        colour_up = "darkgreen", colour_down = "darkred", 
+                        fill_up  = "darkgreen", fill_down  = "darkred") +
+    labs(title = "Candlestick Chart", 
+         subtitle = "Zoomed in, Experimenting with Formatting",
+         y = "Closing Price", x = "") + 
+  
+    theme_tq()
+
+```
+
+
+
+
+
+
+```{r}
+ob <- subset(data, symbol=="SB")  
+    df <- ob[c(9,5)]
+    option <- subset(df, date>= "2021-01-01" & date<="2021-12-01")
+    option <-option[order(as.Date(option$date, format="%d/%m/%Y")),]
+    splits <- initial_time_split(option, prop = 0.9)
+
+    #arima_boosted
+    model_fit_arima_boosted <- arima_boost(
+      min_n = 2,
+      learn_rate = 0.015
+    ) %>%
+      set_engine(engine = "auto_arima_xgboost") %>%
+      fit(close ~ date + as.numeric(date) + factor(month(date, label = TRUE), ordered = F),
+          data = training(splits))
+    #Exponential Smoothing
+    
+    model_fit_ets <- exp_smoothing() %>%
+      set_engine(engine = "ets") %>%
+      fit(close ~ date, data = training(splits))
+    
+    #prophet
+    model_fit_prophet <- prophet_reg() %>%
+      set_engine(engine = "prophet") %>%
+      fit(close ~ date, data = training(splits))
+    
+    
+    #GLMNET
+    
+    model_glmnet <- linear_reg(penalty = 0.01) %>%
+      set_engine("glmnet") %>%
+      fit(close ~ wday(date,label = TRUE)+ month(date,label = TRUE)+ as.numeric(date),
+          data = training(splits))
+    #Add fitted models to a Model Table.
+    models_tbl <- modeltime_table(
+      model_fit_arima_boosted,
+      model_fit_ets,
+      model_fit_prophet,
+      model_glmnet
+    )
+    #Calibrate the model to a testing set
+    calibration_tbl <- models_tbl %>%
+      modeltime_calibrate(new_data = testing(splits))
+    #Testing Set Forecast & Accuracy Evaluation
+    
+    calibration_tbl %>%
+      modeltime_forecast(
+        new_data    = testing(splits),
+        actual_data = option
+      ) %>%
+      plot_modeltime_forecast(
+        .legend_max_width = 25, 
+      )
+    ###Residual table
+    residuals_tbl <- calibration_tbl %>%
+      modeltime_residuals()
+    residuals_table
+    residuals_plots <- residuals_tbl %>%
+      plot_modeltime_residuals(.type = "timeplot",
+                               .facet_vars = .model_desc, 
+                               .facet_ncol = 2, 
+                               .interactive = FALSE,
+                               .facet_scales = "fixed") +
+      labs(title = paste("Residuals Plot for", input$futures),
+           y = "Residuals") +
+      theme(panel.spacing = unit(0.25, "lines"),
+            legend.position='none')
+    residuals_plots 
+    #Refit to Full Dataset & Forecast Forward
+    
+    
+    refit_tbl <- calibration_tbl %>%
+      modeltime_refit(data = option)
+    
+    refit_tbl %>%
+      modeltime_forecast(h = sprintf("%s days", input$horizon), actual_data = option) %>%
+      plot_modeltime_forecast(
+        .legend_max_width = 25, 
+      )
+
+```
